@@ -14,14 +14,12 @@ int main(){
 	std::cout<<std::endl;
 
 	// compare and exchange
-	b.store(true);
+	b.store(false);
 	bool expected = false;
 	while(1){
-		// case 1: b = true, expected=false
-		//  compare_exchaneg_weak return false. Finish in 1 loop
-		//  b=true, expected = true (set b.load() to expected)
-		// case 2: b = false, expected = false
-		// 
+        // If compare_exchange_weak succeed, function returns
+        // Else if expected value changed to true, means it got assigned from b.load()
+        // which is already a true.
 		bool result = (!b.compare_exchange_weak(expected,true) && !expected);
 		std::cout<<"b = "<<b.load()<<" expected= "<<expected<<" result= "<<result<<std::endl;
 		if(!result){
